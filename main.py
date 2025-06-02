@@ -1,40 +1,66 @@
-from dotenv import load_dotenv
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import os
+import yaml
+from openai import OpenAI
+from collections import defaultdict, Counter
 
-load_dotenv()
+from src.utils import scrape_rss_and_analyze, send_to_telegram_sync
 
-# Load FinBERT
-tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
-model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
-labels = ['positive', 'negative', 'neutral']
+with open("geopolitics_schema.yaml", "r") as f:
+    geopolitics_schema = yaml.safe_load(f)
 
-# Tag keywords
-TOPIC_KEYWORDS = {
-    "geopolitics": ["india", "pakistan", "china", "israel", "gaza", "trump", "ukraine", "russia", "nato", 
-                    "iran", "usa", "north korea", "united nations", "sanctions", "diplomacy", "eu", "brexit", 
-                    "middle east", "taiwan", "south china sea", "border", "military", "defense", "g7", "summit"],
-    
-    "finance": ["market", "stocks", "rates", "tariff", "bank", "inflation", "trade", "futures", "economy",
-                "recession", "fed", "federal reserve", "treasury", "bond", "crypto", "bitcoin", "portfolio", 
-                "investment", "debt", "deficit", "gdp", "dollar", "currency", "hedge fund", "bear market", 
-                "bull market", "earnings", "volatility", "ipo", "housing", "mortgage", "retail", "consumer", "supply chain", "unemployment", "jobs", "wage", "minimum wage"],
-    
-    "technology": ["ai", "openai", "neurodiversity", "chip", "robot", "software", "satoshi", 
-                  "cybersecurity", "blockchain", "cloud", "data", "privacy", "algorithm", "semiconductor", 
-                  "quantum", "startup", "silicon valley", "neural network", "machine learning", "web3", 
-                  "autonomous", "spacex", "tesla", "meta", "apple", "google", "microsoft", "nvidia"],
-    
-    "energy": ["oil", "gas", "nuclear", "energy", "drilling", "saudi", 
-              "renewable", "solar", "wind", "carbon", "emissions", "climate", "opec", "fracking", 
-              "coal", "electric", "grid", "battery", "hydrogen", "biofuel", "sustainability"],
-    
-    "social": ["education", "diversity", "gender", "vaccine", "nypd", "college", 
-              "healthcare", "inequality", "poverty", "immigration", "religion", "misinformation", 
-              "civil rights", "protest", "abortion", "gun control", "lgbtq", "housing", "mental health", 
-              "pandemic", "remote work", "crime", "justice", "policy"],
-    
-    "health": ["covid", "virus", "medical", "pharmaceutical", "hospital", "treatment", "disease", 
-              "research", "who", "pandemic", "epidemic", "obesity", "aging", "longevity", "medicare", 
-              "insurance", "wellness", "drug", "biotech", "telemedicine"],
-}
+# Core pipeline
+def run_briefing():
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+    # Scrape and analyze
+    feeds = {
+        "zerohedge.com": "https://cms.zerohedge.com/fullrss2.xml"
+    }
+    all_results = []
+    for site, feed_url in feeds.items():
+        all_results.extend(scrape_rss_and_analyze(feed_url, site))
+
+    # Sentiment by topic
+    topic_sentiment = defaultdict(list)
+    for r in all_results:
+        for topic in r["topics"]:
+            topic_sentiment[topic].append(r["sentiment"]["label"])
+
+    top_topic = 'geopolitics'
+    top_topic_headlines = [r["headline"] for r in all_results if top_topic in r["topics"]]
+
+    # Step 1: Generate Briefing
+    briefing_prompt = f"""
+    You are a geopolitical analyst writing high-clarity, high-signal briefings... (trimmed)
+    {chr(10).join(f"\u2022 {h}" for h in top_topic_headlines)}
+    """
+
+    briefing_response = client.chat.completions.create(
+        model=os.getenv('OPENAI_MODEL'),
+        messages=[{"role": "user", "content": briefing_prompt}],
+        temperature=0.5,
+    )
+    briefing_text = briefing_response.choices[0].message.content
+
+    # Step 2: Generate Mini Lesson
+    lesson_prompt = f"""
+    You are a geopolitical analyst trained to extract key themes... (trimmed)
+    ---\n\n### Briefing to Analyze:\n{briefing_text.strip()}
+    """
+    lesson_response = client.chat.completions.create(
+        model=os.getenv('OPENAI_MODEL'),
+        messages=[{"role": "user", "content": lesson_prompt}],
+        temperature=0.5,
+    )
+    mini_lesson = lesson_response.choices[0].message.content
+
+    # Telegram delivery
+    telegram_message = f"<b>📊 Daily Intelligence Brief: {top_topic.upper()}</b>\n{briefing_text}\n\n<b>🧭 Mini Lesson</b>\n{mini_lesson}"
+    send_to_telegram_sync(
+        message=telegram_message,
+        token=os.getenv("TELEGRAM_BOT_TOKEN"),
+        chat_id=os.getenv("TELEGRAM_CHAT_ID")
+    )
+
+if __name__ == "__main__":
+    run_briefing()
