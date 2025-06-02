@@ -1,0 +1,133 @@
+geopolitics:
+  power_structures:
+    superpowers: ["USA", "China"]
+    great_powers: ["Russia", "India", "Germany", "Japan", "UK", "France"]
+    middle_powers: ["Turkey", "Brazil", "Saudi Arabia", "Indonesia", "South Korea", "Australia", "Canada"]
+    regional_hegemons: ["Iran", "Israel", "Egypt", "Nigeria", "South Africa", "Mexico"]
+    rising_powers: ["Vietnam", "Bangladesh", "UAE", "Singapore", "Qatar"]
+    declining_powers: ["Venezuela", "Myanmar", "Sri Lanka"]
+    revisionist_states: ["Russia", "Iran", "North Korea"]
+    status_quo_powers: ["USA", "EU", "Japan", "Australia"]
+
+  conflict_zones:
+    active_wars:
+      interstate: ["Russia-Ukraine", "Israel-Hamas-Hezbollah"]
+      civil_wars: ["Sudan", "DRC", "Somalia", "Syria", "Yemen", "Myanmar"]
+      proxy_conflicts: ["Libya", "Ethiopia-Tigray"]
+      insurgencies: ["Sahel region", "Afghanistan", "Philippines", "Colombia"]
+    frozen_conflicts: ["Cyprus", "Kashmir", "Transnistria", "South Ossetia", "Abkhazia", "Nagorno-Karabakh"]
+    flashpoints:
+      high_risk: ["Taiwan Strait", "South China Sea", "Korean Peninsula"]
+      medium_risk: ["West Bank", "Red Sea", "India-Pakistan border", "Armenia-Azerbaijan"]
+      emerging: ["Arctic", "Moldovan border", "Serbia-Kosovo", "Georgia borders"]
+    fragile_states: ["Haiti", "Afghanistan", "Chad", "Mali", "Burkina Faso", "Niger", "Lebanon", "Pakistan"]
+    
+  institutional_architecture:
+    multilateral_security:
+      global: ["UN Security Council", "UN General Assembly"]
+      regional: ["NATO", "CSTO", "SCO", "ASEAN", "AU", "OAS", "Arab League"]
+      minilateral: ["QUAD", "AUKUS", "I2U2", "Abraham Accords", "Three Seas Initiative"]
+    economic_governance:
+      established: ["G7", "G20", "IMF", "World Bank", "WTO"]
+      emerging: ["BRICS+", "Belt and Road Initiative", "EAEU", "RCEP", "CPTPP"]
+      sectoral: ["IEA", "OPEC+", "FATF", "BIS"]
+    issue_specific: ["IAEA", "WHO", "WMO", "ITU", "ICAO", "IMO", "WIPO"]
+
+  strategic_domains:
+    conventional_military:
+      force_projection: ["aircraft carriers", "overseas bases", "strategic bombers"]
+      area_denial: ["anti-access systems", "missile defense", "coastal defenses"]
+      modernization: ["next-gen fighters", "hypersonic weapons", "autonomous systems"]
+    nuclear_dynamics:
+      arsenals: ["USA", "Russia", "China", "France", "UK", "India", "Pakistan", "Israel", "North Korea"]
+      proliferation_risks: ["Iran", "Saudi Arabia", "Turkey", "South Korea", "Japan"]
+      arms_control: ["New START", "NPT", "CTBT", "INF collapse"]
+    cyber_warfare:
+      state_actors: ["USA", "China", "Russia", "Iran", "North Korea", "Israel"]
+      targets: ["critical infrastructure", "elections", "financial systems", "supply chains"]
+      governance: ["cyber norms", "attribution challenges", "private sector role"]
+    space_competition:
+      military: ["anti-satellite weapons", "space force branches", "dual-use satellites"]
+      commercial: ["satellite internet", "launch capabilities", "manufacturing"]
+      governance: ["Outer Space Treaty", "debris management", "traffic coordination"]
+    information_warfare:
+      disinformation: ["social media manipulation", "state-sponsored narratives", "deep fakes"]
+      propaganda: ["media influence", "cultural diplomacy", "educational exchanges"]
+      cognitive_security: ["media literacy", "fact-checking", "platform regulation"]
+
+  economic_statecraft:
+    sanctions_regimes:
+      comprehensive: ["Russia", "Iran", "North Korea", "Myanmar"]
+      targeted: ["China tech", "Belarus officials", "Syrian regime", "Venezuelan leadership"]
+      secondary: ["entities dealing with sanctioned countries", "financial institutions"]
+    trade_warfare:
+      tariffs: ["US-China trade war", "steel/aluminum tariffs", "digital services taxes"]
+      export_controls: ["semiconductors", "AI technology", "dual-use goods"]
+      investment_screening: ["CFIUS", "EU FDI screening", "critical infrastructure"]
+    economic_coercion:
+      supply_chain_pressure: ["rare earth minerals", "pharmaceutical APIs", "food exports"]
+      financial_leverage: ["SWIFT access", "dollar dominance", "debt diplomacy"]
+      energy_weapons: ["gas cutoffs", "oil embargoes", "pipeline politics"]
+    geoeconomic_competition:
+      infrastructure: ["BRI vs B3W", "connectivity projects", "port acquisitions"]
+      technology_standards: ["5G networks", "payment systems", "digital currencies"]
+      resource_access: ["critical minerals", "water rights", "agricultural land"]
+
+  non_state_actors:
+    terrorist_organizations: ["ISIS", "Al-Qaeda", "Taliban", "various regional groups"]
+    criminal_networks: ["drug cartels", "human trafficking", "cybercrime syndicates"]
+    private_military: ["Wagner Group", "other PMCs", "security contractors"]
+    multinational_corporations: ["tech giants", "defense contractors", "energy companies"]
+    international_ngos: ["humanitarian", "environmental", "human rights"]
+    diaspora_communities: ["lobbying groups", "remittance flows", "cultural influence"]
+
+  emerging_challenges:
+    technology_disruption:
+      artificial_intelligence: ["military AI", "surveillance systems", "autonomous weapons"]
+      biotechnology: ["bioweapons potential", "genetic engineering", "pandemic preparedness"]
+      quantum_computing: ["cryptography impact", "sensing capabilities", "communication security"]
+      climate_technology: ["geoengineering", "carbon capture", "renewable energy transition"]
+    resource_competition:
+      critical_minerals: ["lithium", "cobalt", "rare earth elements", "semiconductor materials"]
+      water_security: ["river disputes", "aquifer depletion", "desalination politics"]
+      food_security: ["grain exports", "fertilizer access", "agricultural technology"]
+      energy_transition: ["renewable infrastructure", "grid security", "storage technology"]
+    demographic_shifts:
+      migration_pressures: ["climate refugees", "economic migrants", "political asylum"]
+      aging_populations: ["workforce decline", "healthcare costs", "pension burdens"]
+      urbanization: ["megacity governance", "infrastructure strain", "social tensions"]
+      youth_bulges: ["employment challenges", "radicalization risks", "education demands"]
+    governance_evolution:
+      digital_sovereignty: ["data localization", "internet fragmentation", "platform regulation"]
+      authoritarian_adaptation: ["surveillance states", "information control", "economic models"]
+      democratic_resilience: ["polarization", "institutional trust", "electoral integrity"]
+      global_governance_gaps: ["pandemic response", "climate action", "tech regulation"]
+
+  regional_dynamics:
+    indo_pacific:
+      strategic_competition: ["US-China rivalry", "alliance networks", "military buildup"]
+      economic_integration: ["supply chains", "trade agreements", "infrastructure"]
+      flashpoints: ["Taiwan", "South China Sea", "Korean Peninsula", "India-China border"]
+    europe:
+      security_architecture: ["NATO expansion", "EU strategic autonomy", "Russia containment"]
+      economic_challenges: ["energy security", "migration", "democratic backsliding"]
+      institutional_evolution: ["EU integration", "transatlantic relations", "Eastern Partnership"]
+    middle_east:
+      power_balance: ["Iran-Saudi rivalry", "Israeli security", "Turkish ambitions"]
+      conflict_dynamics: ["proxy wars", "sectarian tensions", "state collapse"]
+      energy_politics: ["oil markets", "pipeline routes", "renewable transition"]
+    africa:
+      great_power_competition: ["US-China-Russia", "France-UK influence", "Gulf states"]
+      security_challenges: ["terrorism", "coups", "maritime security"]
+      development_potential: ["demographic dividend", "resource wealth", "integration"]
+    latin_america:
+      external_influence: ["US hegemony", "Chinese investment", "Russian presence"]
+      internal_challenges: ["migration", "crime", "democratic erosion"]
+      regional_integration: ["trade blocs", "infrastructure projects", "diplomatic initiatives"]
+
+  monitoring_indicators:
+    conflict_escalation: ["military deployments", "diplomatic recalls", "economic sanctions"]
+    alliance_stability: ["defense spending", "joint exercises", "political commitments"]
+    power_transitions: ["GDP growth", "military capabilities", "technological advancement"]
+    institutional_effectiveness: ["UN voting patterns", "treaty compliance", "crisis response"]
+    public_opinion: ["approval ratings", "nationalist sentiment", "international trust"]
