@@ -4,13 +4,13 @@ from openai import OpenAI
 from collections import defaultdict, Counter
 
 from src.utils import scrape_rss_and_analyze, send_to_telegram_sync
+from src.prompts import briefing_prompt, lesson_prompt
 
 with open("geopolitics_schema.yaml", "r") as f:
     geopolitics_schema = yaml.safe_load(f)
 
 # Core pipeline
 def run_briefing():
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     # Scrape and analyze
     feeds = {
@@ -30,29 +30,10 @@ def run_briefing():
     top_topic_headlines = [r["headline"] for r in all_results if top_topic in r["topics"]]
 
     # Step 1: Generate Briefing
-    briefing_prompt = f"""
-    You are a geopolitical analyst writing high-clarity, high-signal briefings... (trimmed)
-    {chr(10).join(f"\u2022 {h}" for h in top_topic_headlines)}
-    """
-
-    briefing_response = client.chat.completions.create(
-        model=os.getenv('OPENAI_MODEL'),
-        messages=[{"role": "user", "content": briefing_prompt}],
-        temperature=0.5,
-    )
-    briefing_text = briefing_response.choices[0].message.content
+    briefing_text = briefing_prompt(top_topic_headlines)
 
     # Step 2: Generate Mini Lesson
-    lesson_prompt = f"""
-    You are a geopolitical analyst trained to extract key themes... (trimmed)
-    ---\n\n### Briefing to Analyze:\n{briefing_text.strip()}
-    """
-    lesson_response = client.chat.completions.create(
-        model=os.getenv('OPENAI_MODEL'),
-        messages=[{"role": "user", "content": lesson_prompt}],
-        temperature=0.5,
-    )
-    mini_lesson = lesson_response.choices[0].message.content
+    mini_lesson = lesson_prompt(briefing_text, geopolitics_schema)
 
     # Telegram delivery
     telegram_message = f"<b>📊 Daily Intelligence Brief: {top_topic.upper()}</b>\n{briefing_text}\n\n<b>🧭 Mini Lesson</b>\n{mini_lesson}"
