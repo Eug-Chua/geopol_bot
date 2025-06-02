@@ -1,9 +1,10 @@
 import re
-from dotenv import load_dotenv
 import torch
 import datetime
 import feedparser
 from scipy.special import softmax
+from dotenv import load_dotenv
+from telegram import Bot
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 load_dotenv()
@@ -56,3 +57,7 @@ def scrape_rss_and_analyze(feed_url, source_name):
             "topics": topic_tags
         })
     return headlines
+
+def send_to_telegram_sync(message, token, chat_id):
+    bot = Bot(token=token)
+    bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
