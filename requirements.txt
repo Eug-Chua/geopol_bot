@@ -1,0 +1,8 @@
+feedparser
+transformers
+torch
+scipy
+textblob
+python-dotenv
+python-telegram-bot==13.15
+openai
