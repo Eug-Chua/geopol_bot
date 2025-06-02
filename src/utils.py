@@ -34,13 +34,28 @@ def get_finbert_sentiment(text):
         "scores": dict(zip(labels, map(float, probs)))
     }
 
-def tag_topic(headline):
+def extract_topic_keywords(schema: dict) -> dict:
+    topic_keywords = {}
+
+    def recurse(prefix, obj):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                recurse(f"{prefix}.{k}" if prefix else k, v)
+        elif isinstance(obj, list):
+            flat_key = prefix.split(".")[0]
+            topic_keywords.setdefault(flat_key, set()).update(map(str.lower, map(str, obj)))
+
+    recurse("", schema)
+    return {k: list(v) for k, v in topic_keywords.items()}
+
+def tag_topic(headline: str, topic_keywords: dict) -> list:
     headline_lower = headline.lower()
     matched_topics = [
-        topic for topic, keywords in TOPIC_KEYWORDS.items()
+        topic for topic, keywords in topic_keywords.items()
         if any(keyword in headline_lower for keyword in keywords)
     ]
     return matched_topics if matched_topics else ["other"]
+
 
 def scrape_rss_and_analyze(feed_url, source_name):
     headlines = []
