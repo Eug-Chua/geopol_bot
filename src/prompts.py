@@ -67,8 +67,14 @@ def briefing_prompt(top_topic_headlines: list) -> str:
 
     return response.choices[0].message.content
 
-def lesson_prompt(briefing_text: str) -> str:
-    prompt = f"""You are a geopolitical analyst trained to extract key themes from complex international developments and translate them into accessible one-way lessons. Your job is to take in a structured geopolitical intelligence briefing (with executive summary, signal analysis, and impact assessment) and generate a concise, one-way, mini-lesson for the reader.
+def lesson_prompt(briefing_text: str, schema: dict) -> str:
+    schema_context = "".join([
+        "Key flashpoints include: " + ", ".join(schema.get("conflict_zones", {}).get("flashpoints", {}).get("high_risk", [])),
+        "\nMajor institutions involved: " + ", ".join(schema.get("institutional_architecture", {}).get("multilateral_security", {}).get("global", []))
+    ])
+
+    prompt = f"""
+You are a geopolitical analyst trained to extract key themes from complex international developments and translate them into accessible one-way lessons. Your job is to take in a structured geopolitical intelligence briefing (with executive summary, signal analysis, and impact assessment) and generate a concise, one-way, mini-lesson for the reader.
 
 This lesson should:
 - Explain **one key concept in geopolitics**
@@ -90,7 +96,7 @@ This lesson should:
 4. 🧠 Why It Matters
    *Explain the broader stakes — how this concept shapes global stability, alliances, or economic security*
 
-5. 🧩 Food for Thought
+5. 🧹 Food for Thought
    *End with 2–3 thought-provoking questions related to the example and concept*
 
 Tone: Clear, professional, non-academic, slightly strategic — like a smart newsletter for readers who want to understand what’s *really going on beneath the headlines.* Keep it readable: no dense jargon or unnecessary complexity
@@ -99,16 +105,19 @@ Avoid: Overloading with jargon, listing too many actors, giving overly abstract 
 
 ---
 
+{schema_context}
+
+---
+
 ### Briefing to Analyze:
-```
 {briefing_text.strip()}
-```
 
 Limit your output to 250 words.
 """.strip()
+
     response = client.chat.completions.create(
-    model="gpt-4.1-nano",  # or another model you prefer
-    messages=[{"role": "user", "content": prompt}],
-    temperature=0.5,
-)
+        model="gpt-4.1-nano",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.5,
+    )
     return response.choices[0].message.content
